@@ -1,7 +1,7 @@
 # aws-ssm-parameters
 
 ## Usage
-JSON
+JSON Example
 ```json
 [
   {
