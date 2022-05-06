@@ -1,4 +1,5 @@
 {
   "name" : "parameter",
-  "value": "123456789"
+  "value": "123456789",
+  "type": "String"
 }
