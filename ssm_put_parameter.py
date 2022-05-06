@@ -11,7 +11,7 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
-
+import sys
 import json
 import boto3
 import logging
@@ -65,15 +65,20 @@ def put_parameter_with_overwrite(parameter_name, parameter_value, parameter_type
 
 def main():
 
-    with open('./parameters.json', 'r') as file:
-        data = json.load(file)
-    for key, value in data.items():
+    try:
+        with open(sys.argv[1], 'r') as file:
+            data = json.load(file)
+    except IndexError:
+        print("Provide a .json file with parameters")
+        return 1
+        
+    for parameter in data:
         
     # Assign these values before running the program
     # If the specified specified parameter already exist in SSM, ParameterAlreadyExists error will be thrown
-        parameter_name = key
-        parameter_value = value
-        parameter_type = 'String'  # ('String'|'StringList'|'SecureString')
+        parameter_name = parameter['name']
+        parameter_value = parameter['value']
+        parameter_type = parameter['type']  # ('String'|'StringList'|'SecureString')
 
         # Set up logging
         logging.basicConfig(level=logging.DEBUG,

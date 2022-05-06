@@ -12,23 +12,23 @@
 # language governing permissions and limitations under the License.
 
 
-
+import sys
 import json
 import boto3
 import logging
 from botocore.exceptions import ClientError
 
 
-def delete_parameters(parameter_names):
-    """Delete multiple parameters in AWS SSM
+def delete_parameter(parameter_name):
+    """Delete parameter in AWS SSM
 
-    :param parameter_names: List of parameter names to delete from AWS SSM
+    :param parameter_name: Name of the parameter to delete from AWS SSM
     """
     ssm_client = boto3.client('ssm')
 
     try:
-        ssm_client.delete_parameters(
-            Names=parameter_names
+        ssm_client.delete_parameter(
+            Name=parameter_name
         )
     except ClientError as e:
         logging.error(e)
@@ -36,8 +36,12 @@ def delete_parameters(parameter_names):
 
 def main():
     # Assign these values before running the program
-    with open('./parameters.json', 'r') as file:
-        data = json.load(file)
+    try:
+        with open(sys.argv[1], 'r') as file:
+            data = json.load(file)
+    except IndexError:
+        print("Provide a .json file with parameters")
+        return 1
 
     # Set up logging
     logging.basicConfig(level=logging.DEBUG,
@@ -46,8 +50,8 @@ def main():
     # delete parameter from SSM
 
     # delete multiple parameters from SSM
-    parameter_names = list(data.keys())
-    delete_parameters(parameter_names)
+    for parameter in data:
+        delete_parameter(parameter['name'])
 
 
 if __name__ == '__main__':
