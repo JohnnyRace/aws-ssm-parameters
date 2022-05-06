@@ -1,6 +1,14 @@
 # aws-ssm-parameters
 
 ## Usage
+JSON
+```json
+{
+  "name": "parameter",
+  "value": "123456789",
+  "type": "String"
+}
+```
 Provide JSON file with parameters in correct format as argument and run:
 ```python
 python3 ssm_put_parameters.py parameters.json
