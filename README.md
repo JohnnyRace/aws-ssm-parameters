@@ -3,11 +3,18 @@
 ## Usage
 JSON
 ```json
-{
-  "name": "parameter",
-  "value": "123456789",
-  "type": "String"
-}
+[
+  {
+    "name": "parameter1",
+    "value": "123456789",
+    "type": "String"
+  },
+  {
+    "name": "parameter2",
+    "value": "123456789",
+    "type": "String"
+  }
+]
 ```
 Provide JSON file with parameters in correct format as argument and run:
 ```python
