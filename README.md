@@ -51,15 +51,3 @@ Use both `--replace` and `--to` arguments!
 
 ## Example
 
-Replace `a` to `b` in all parameter names from `/` path in SSM
-```bash
-./aws_ssm.sh --profile default --path / --replace a --to b --upload --overwrite 
-```
-Get all parameters by path
-```bash
-./aws_ssm.sh --profile default --path / --get
-```
-***(Not finalized)*** Delete all replaced parameters
-```bash
-./aws_ssm.sh --profile default --path / --replace a --to b --delete
-```
