@@ -1,7 +1,6 @@
 #!/usr/bin/bash
 
 GET=0
-PLAN=0
 
 while [ -n "$1" ]; do
     case "$1" in
