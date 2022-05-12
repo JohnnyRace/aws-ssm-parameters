@@ -1,6 +1,5 @@
 import json
 import subprocess
-import sys
 import boto3
 import logging
 import argparse
@@ -42,7 +41,7 @@ elif not args['replace'] and args['to']:
 
 
 def replace(parameter):
-    return parameter['name'].replace(args['replace'], args['to'])
+    return parameter['Name'].replace(args['replace'], args['to'])
 
 
 def put_parameter(ssm_client, parameter_name, parameter_value, parameter_type, overwrite):
@@ -75,16 +74,16 @@ def delete_parameter(ssm_client, parameter_name):
 def clear(ssm, data):
     save(data)
     for parameter in data:
-        delete_parameter(ssm, parameter['name'])
+        delete_parameter(ssm, parameter['Name'])
 
 def upload(ssm, data):
     for parameter in data:
         if args['replace'] and args['to']:
-            parameter['name'] = replace(parameter)
-            put_parameter(ssm, parameter['name'], parameter['value'], parameter['type'], args['overwrite'])
+            parameter['Name'] = replace(parameter)
+            put_parameter(ssm, parameter['Name'], parameter['Value'], parameter['Type'], args['overwrite'])
         else:
             save(data)
-            put_parameter(ssm, parameter['name'], parameter['value'], parameter['type'], args['overwrite'])
+            put_parameter(ssm, parameter['Name'], parameter['Value'], parameter['Type'], args['overwrite'])
     return data
             
 
@@ -94,11 +93,17 @@ def save(data):
         file.write(str(json.dumps(data)))
     return "Saved in parameters.json"
 
-def get_data():
+def get_data(ssm):
     if not args['read']:
-        command = "aws ssm get-parameters-by-path --profile %s --path %s --with-decryption | jq '.Parameters | [.[] | {name: .Name, value:.Value, type:.Type}]'" % (args['profile'], args['path'])
-        result = subprocess.run(command, capture_output=True, text=True, shell=True)
-        data = json.loads(result.stdout)
+        paginator = ssm.get_paginator('get_parameters_by_path')
+        response_iterator = paginator.paginate(
+            Path=args['path'],
+            WithDecryption=True
+        )
+        data=[]
+        for page in response_iterator:
+            for entry in page['Parameters']:
+                data.append(entry)
     else:
         with open(args['read']) as file:
             data = json.load(file)
@@ -110,21 +115,21 @@ def main():
     ssm = session.client('ssm')
 
     if args['save']:
-        data = get_data()
+        data = get_data(ssm)
         return print(save(data))
     elif args['restore']:
-        data = get_data()
+        data = get_data(ssm)
         upload(ssm, data)
     elif args['replace']:
-        data = get_data()
+        data = get_data(ssm)
         new_data = upload(ssm, data)
         if args['delete']:
             clear(ssm, new_data)
     elif args['delete']:
-        data = get_data()
+        data = get_data(ssm)
         clear(ssm, data)
     elif args['get']:
-        data = get_data()
+        data = get_data(ssm)
         return print(json.dumps(data))
 
     
