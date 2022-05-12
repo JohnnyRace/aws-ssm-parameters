@@ -1,16 +1,18 @@
 # aws-ssm-parameters
 
 ## Install
-Install [jq](https://stedolan.github.io/jq/) and [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) using the documentation or for Linux (x86) just paste commands below into your terminal
+Install [jq](https://stedolan.github.io/jq/), [aws cli](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and [Python3](https://www.python.org/downloads/) using the documentation or for Linux (x86) just paste commands below into your terminal
 ```bash
 sudo apt install jq
+```
+```bash
+sudo apt install python3
 ```
 ```bash
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 ```
 ```bash
 unzip awscliv2.zip
-
 ```
 ```bash
 sudo ./aws/install
@@ -20,9 +22,6 @@ git clone https://github.com/JohnnyRace/aws-ssm-parameters.git
 ```
 ```bash
 cd aws-ssm-parameters
-```
-```bash
-sudo chmod +x aws_ssm.sh
 ```
 
 
