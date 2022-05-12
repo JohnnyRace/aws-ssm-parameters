@@ -96,7 +96,7 @@ def save(data):
 
 def get_data():
     if not args['read']:
-        command = "aws ssm get-parameters-by-path --profile %s --path %s | jq '.Parameters | [.[] | {name: .Name, value:.Value, type:.Type}]'" % (args['profile'], args['path'])
+        command = "aws ssm get-parameters-by-path --profile %s --path %s --with-decryption | jq '.Parameters | [.[] | {name: .Name, value:.Value, type:.Type}]'" % (args['profile'], args['path'])
         result = subprocess.run(command, capture_output=True, text=True, shell=True)
         data = json.loads(result.stdout)
     else:
