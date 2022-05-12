@@ -1,1 +1,1 @@
-[{"name": "/sokol/dev/PARAM_1", "value": "1", "type": "String"}, {"name": "/sokol/dev/PARAM_2", "value": "2", "type": "String"}, {"name": "/sokol/dev/PARAM_3", "value": "3", "type": "String"}, {"name": "/sokol/dev/PARAM_4", "value": "4", "type": "String"}]
+[{"name": "/sokol/uat/PARAM_1", "value": "1", "type": "String"}, {"name": "/sokol/uat/PARAM_2", "value": "2", "type": "String"}, {"name": "/sokol/uat/PARAM_3", "value": "3", "type": "String"}, {"name": "/sokol/uat/PARAM_4", "value": "4", "type": "String"}]

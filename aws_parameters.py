@@ -1,4 +1,5 @@
 import json
+import subprocess
 import sys
 import boto3
 import logging
@@ -13,6 +14,7 @@ from botocore.exceptions import ClientError
 # Parse arguments
 parser = argparse.ArgumentParser(description='Description of your program')
 parser.add_argument('--profile', required=False)
+parser.add_argument('--path', required=False)
 parser.add_argument('--replace', required=False)
 parser.add_argument('--to', required=False)
 parser.add_argument('--upload', required=False,
@@ -26,6 +28,8 @@ parser.add_argument('--restore', required=False,
                     action='store_const', default=False, const=True)
 parser.add_argument('--save', required=False,
                     action='store_const', default=False, const=True)
+parser.add_argument('--get', required=False,
+                    action='store_const', default=False, const=True)                    
 
 args = vars(parser.parse_args())
 
@@ -45,6 +49,8 @@ def put_parameter(ssm_client, parameter_name, parameter_value, parameter_type, o
     try:
         if not args['upload'] and not args['delete'] and not args['restore']:
             return print(f"{parameter_name} : {parameter_value}")
+        elif args['delete']:
+            return
         else:
             result = ssm_client.put_parameter(
                 Name=parameter_name,
@@ -90,7 +96,9 @@ def save(data):
 
 def get_data():
     if not args['read']:
-        data = json.load(sys.stdin)
+        command = "aws ssm get-parameters-by-path --profile %s --path %s | jq '.Parameters | [.[] | {name: .Name, value:.Value, type:.Type}]'" % (args['profile'], args['path'])
+        result = subprocess.run(command, capture_output=True, text=True, shell=True)
+        data = json.loads(result.stdout)
     else:
         with open(args['read']) as file:
             data = json.load(file)
@@ -115,6 +123,9 @@ def main():
     elif args['delete']:
         data = get_data()
         clear(ssm, data)
+    elif args['get']:
+        data = get_data()
+        return print(json.dumps(data))
 
     
 
