@@ -52,13 +52,13 @@ Use both `--replace` and `--to` arguments!
 
 Replace `a` to `b` in all parameter names from `/` path in SSM
 ```bash
-./aws_ssm.sh --profile default --path / --replace a --to b --upload --overwrite 
+python3 aws_ssm.py --profile default --path /sokol/dev/ --replace a --to b --upload
 ```
 Get all parameters by path
 ```bash
-./aws_ssm.sh --profile default --path / --get
+python3 aws_ssm.py --profile default --path / --get
 ```
 Delete all replaced parameters
 ```bash
-./aws_ssm.sh --profile default --path / --replace a --to b --delete
+python3 aws_ssm.py --profile default --path /sokol/dev/ --replace dev --to qa --delete
 ```
