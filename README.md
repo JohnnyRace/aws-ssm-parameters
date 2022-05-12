@@ -10,6 +10,7 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 ```
 ```bash
 unzip awscliv2.zip
+
 ```
 ```bash
 sudo ./aws/install
