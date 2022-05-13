@@ -46,5 +46,5 @@ python3 aws_ssm.py --profile default --path / --get
 ```
 Delete all replaced parameters
 ```bash
-python3 aws_ssm.py --profile default --path /sokol/dev/ --replace dev --to qa --delete
+python3 aws_ssm.py --profile default --path /sokol/dev/ --from dev --to qa --delete
 ```

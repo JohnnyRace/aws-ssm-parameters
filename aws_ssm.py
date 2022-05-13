@@ -153,10 +153,10 @@ def main():
         clear(ssm, data)
     elif args['get']:
         data = get_data(ssm)
-        return print(json.dumps(data))
+        return print(json.dumps(data, indent=2, sort_keys=True, default=str))
     elif args['read']:
         data = get_data(ssm)
-        return print(json.dumps(data))
+        return print(json.dumps(data, indent=2, sort_keys=True, default=str))
     elif args['clear']:
         for filename in os.listdir():
             if 'parameters_dump_' in filename:
