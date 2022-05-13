@@ -8,9 +8,6 @@ from datetime import datetime
 
 from botocore.exceptions import ClientError
 
-# Enable loging
-
-
 # Parse arguments
 parser = argparse.ArgumentParser(description='Description of your program')
 parser.add_argument('-P', '--profile', required=False)
@@ -168,8 +165,6 @@ def main():
         return None
     
         
-
-    
 
 if __name__ == '__main__':
     main()
