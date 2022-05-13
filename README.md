@@ -19,7 +19,7 @@ sudo apt install python3
 | Argument            | Description |
 | :---                |    :----    |
 | `-P`, `--profile`   | (R) Specify the AWS profile for script's session |
-| `-p`, `--path`      | (R) SSM parameters path ex: `/my/first/param/ ` |
+| `-p`, `--path`      | (R) SSM parameters path ex: `/my/first/param/` |
 | `-g`, `--get`       | (O) Flag to get parameters without any actions with it |
 | `-f`, `--from`      | (O/BR1) Specify a **part** of string to rename |
 | `-t`, `--to`        | (O/BR1) Specify a new **part** of string |

@@ -10,24 +10,24 @@ from botocore.exceptions import ClientError
 
 # Parse arguments
 parser = argparse.ArgumentParser(description='Description of your program')
-parser.add_argument('-P', '--profile', required=False)
-parser.add_argument('-p', '--path', required=False)
-parser.add_argument('-f', '--from', required=False)
-parser.add_argument('-t', '--to', required=False)
+parser.add_argument('-P', '--profile', required=False, help="(R) Specify the AWS profile for script's session")
+parser.add_argument('-p', '--path', required=False, help="(R) SSM parameters path ex: `/my/first/param/`")
+parser.add_argument('-f', '--from', required=False, help="(O/BR1) Specify a **part** of string to rename ")
+parser.add_argument('-t', '--to', required=False, help="(O/BR1) Specify a new **part** of string")
 parser.add_argument('-U', '--upload', required=False,
-                    action='store_const', default=False, const=True)
+                    action='store_const', default=False, const=True, help="(O) Flag to upload new parameters")
 parser.add_argument('-o', '--overwrite', required=False,
-                    action='store_const', default=False, const=True)
+                    action='store_const', default=False, const=True, help="(O) Flag to overwrite parameters")
 parser.add_argument('-D', '--delete', required=False,
-                    action='store_const', default=False, const=True)
-parser.add_argument('-r', '--read', required=False)
+                    action='store_const', default=False, const=True, help="(O) Flag to delete the parameters")
+parser.add_argument('-r', '--read', required=False, help="(O) Flag to read the parameters from JSON file in current folder")
 parser.add_argument('-R', '--restore', required=False,
-                    action='store_const', default=False, const=True)
-parser.add_argument('-s', '--save', required=False)
+                    action='store_const', default=False, const=True, help="(O/need -r before) Flag to restore the parameters from JSON file")
+parser.add_argument('-s', '--save', required=False, help="(O) Flag to save the parameters into JSON file")
 parser.add_argument('-g', '--get', required=False,
-                    action='store_const', default=False, const=True)
+                    action='store_const', default=False, const=True, help="(O) Flag to get parameters without any actions with it")
 parser.add_argument('-c', '--clear', required=False,
-                    action='store_const', default=False, const=True)                    
+                    action='store_const', default=False, const=True, help="(O) Flag to delete all `parameters_dump_*.json` files in current directory")                    
 
 args = vars(parser.parse_args())
 
