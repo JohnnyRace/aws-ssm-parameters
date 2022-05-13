@@ -16,18 +16,21 @@ sudo apt install python3
 **O** - Optional  
 **BR** - Both required
 
-| Argument      | Description |
-| :---          |    :----   |
-| `--profile`   | (R) Specify the AWS profile for script's session |
-| `--path`      | (R) SSM parameters path ex: `/my/first/param/ ` |
-| `--get`       | (O) Flag to get parameters without any actions with it |
-| `--replace`   | (O/BR1) Specify a **part** of string to replace |
-| `--to`        | (O/BR1) Specify a new **part** of string |
-| `--upload`    | (O) Flag to upload new parameters |
-| `--overwrite` | (O) Flag to overwrite parameters |
-| `--delete`    | (O) Flag to delete the parameters |
-| `--read`      | (O/BR2) Flag to read the parameters from JSON file in current folder |
-| `--restore`   | (O/BR2) Flag to restore the parameters from JSON file |
+| Argument            | Description |
+| :---                |    :----    |
+| `-P`, `--profile`   | (R) Specify the AWS profile for script's session |
+| `-p`, `--path`      | (R) SSM parameters path ex: `/my/first/param/ ` |
+| `-g`, `--get`       | (O) Flag to get parameters without any actions with it |
+| `-f`, `--from`      | (O/BR1) Specify a **part** of string to rename |
+| `-t`, `--to`        | (O/BR1) Specify a new **part** of string |
+| `-U`, `--upload`    | (O) Flag to upload new parameters |
+| `-o`, `--overwrite` | (O) Flag to overwrite parameters |
+| `-D`, `--delete`    | (O) Flag to delete the parameters |
+| `-r`, `--read`      | (O) Flag to read the parameters from JSON file in current folder |
+| `-R`, `--restore`   | (O/need -r before) Flag to restore the parameters from JSON file |
+| `-s`, `--save`      | (O) Flag to save the parameters into JSON file |
+| `-c`, `--clear`     | (O) Flag to delete all `parameters_dump_*.json` files in current directory |
+
 
 Use both `--replace` and `--to` arguments!  
 
