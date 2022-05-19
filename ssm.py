@@ -147,7 +147,7 @@ def get_data(ssm):
                     data = []
                     for parameter, value in dotenv_values(".env").items():
                         if not value:
-                            value = '""'
+                            value = 'NOT_DEFINED'
                         data.append(
                             {
                                 'Name': parameter,
