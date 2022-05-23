@@ -1,21 +1,27 @@
 # aws-ssm-parameters
 
-## Install
-Just install [Python3](https://www.python.org/downloads/) and `boto3` module.
+Simple python script for multiple parameter control in Amazon Parameter
+Store Install Just install
+[Python3](https://www.python.org/downloads/) and `boto3` module.
 
-```bash
+``` bash
 sudo apt install -y python3 python3-pip python3-venv
 ```
+
 Better practice is to use `venv`.
-```bash
+
+``` bash
 python3 -m venv venv
 ```
-```bash
+
+``` bash
 source venv/bin/activate
 ```
-```bash
+
+``` bash
 pip3 install -r requirements.txt
 ```
+
 To exit the venv just use `deactivate` command.
 
 ## Usage
@@ -24,41 +30,54 @@ To exit the venv just use `deactivate` command.
 
 **R** - Required  
 **O** - Optional  
-**BR** - Both required
+**BR**(number of group) - Both required
 
-| Argument            | Description |
-| :---                |    :----    |
-| `-P`, `--profile`   | (R) Specify the AWS profile for script's session |
-| `-p`, `--path`      | (R) SSM parameters path ex: `/my/first/param/` |
-<<<<<<< HEAD
-| `-a`, `--add-path`  | (O) Add path to parameter |
-=======
->>>>>>> 694845b62bb4b29ea92f9cc95ee6bbc15238e6bc
-| `-f`, `--from`      | (O/BR1) Specify a **part** of string to rename |
-| `-t`, `--to`        | (O/BR1) Specify a new **part** of string |
-| `-U`, `--upload`    | (O) Flag to upload new parameters |
-| `-o`, `--overwrite` | (O) Flag to overwrite parameters |
-| `-D`, `--delete`    | (O) Flag to delete the parameters |
-| `-r`, `--read`      | (O) Flag to read the parameters from JSON file in current folder |
-| `-q`, `--quiet`   | (O) Flag to don't make backups |
-| `-s`, `--save`      | (O) Flag to save the parameters into JSON file |
-| `-c`, `--clear`     | (O) Flag to delete all `parameters_dump_*.json` files in current directory |
+Use both `--replace` and `--to` arguments!
 
-
-Use both `--replace` and `--to` arguments!  
+| Parameter           | Required | Description                                                                                              |
+|---------------------|:--------:|----------------------------------------------------------------------------------------------------------|
+| `-P`, `--profile`   | R        | Specify the AWS profile for script’s session                                                             |
+| `-p`, `--path`      | R        | SSM parameters path ex: `/my/first/param/`                                                               |
+| `--region`          | O        | Specify an AWS region                                                                                    |
+| `--id`              | O/BR1    | Specify an account ID for assuming role                                                                  |
+| `--role`            | O/BR1    | Specify a role name in children account                                                                  |
+| `-r`, `--read`      | O        | Flag to read the parameters from `JSON` or `env` file in current folder. Use `filename.extension` format |
+| `-s`, `--save`      | O        | Flag to save the parameters into `JSON` or `env` file                                                    |
+| `-U`, `--upload`    | O        | Flag to upload new parameters. It will make a backup if you don’t use `-q` flag                          |
+| `-D`, `--delete`    | O        | Flag to delete the parameters. Need input confirmation!                                                  |
+| `-q`, `--quiet`     | O        | Flag to don't create backups                                                                             |
+| `-c`, `--clear`     | O        | Flag to delete all `parameters_dump_*.json` files in current directory                                   |
+| `-a`, `--add-path`  | O        | Add path to parameter. If you load from `.env` file this argument is required!                           |
+| `-f`, `--from`      | O/BR2    | Specify a **part** of string to rename                                                                   |
+| `-t`, `--to`        | O/BR2    | Specify a new **part** of string                                                                         |
+| `-o`, `--overwrite` | O        | Flag to overwrite parameters                                                                             |
 
 ## Example
 
-Replace `a` to `b` in all parameter names from `/` path in SSM
-```bash
+### Basic usage
+
+Replace `a` to `b` in all parameter names from `/` path in SSM:
+``` bash
 python3 ssm.py --profile default --path /sokol/dev/ --from dev --to qa --upload
 ```
-Get all parameters by path
-```bash
+it will create a backup file with parameters by origin path  
+Get all parameters by path:
+``` bash
 python3 ssm.py --profile default --path /
 ```
-![alt text](./images/2022-05-18_15-48.png)
-Delete parameters by path
-```bash
+![Output](./images/2022-05-18_15-48.png "Output")  
+You also can specify a region  
+Delete parameters by path:
+``` bash
 python3 ssm.py -P default -p /sokol/dev/ -D
+```
+You will need to confirm this action
+
+### How to assume role?
+
+Read the documentation about [switching roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-cli.html) and about [organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tutorials_basic.html) in AWS.  
+Also you can [read](https://aws.amazon.com/ru/premiumsupport/knowledge-center/lambda-function-assume-iam-role/) how it works for this script and what requirements it have.
+Just use:
+``` bash
+python3 ssm.py -P johnrace -p /project/prod/ --id 1111111111111 --role ProductionRoleForExample
 ```

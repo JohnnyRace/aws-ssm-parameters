@@ -26,9 +26,9 @@ parser.add_argument('-o', '--overwrite', required=False,
 parser.add_argument('-D', '--delete', required=False,
                     action='store_const', default=False, const=True, help="(O) Flag to delete the parameters")
 parser.add_argument('-r', '--read', required=False,
-                    help="(O) Flag to read the parameters from JSON file in current folder")
+                    help="(O) Flag to read the parameters from `JSON` or `env` file in current folder. Use `filename.extension` format")
 parser.add_argument('-s', '--save', required=False,
-                    help="(O) Flag to save the parameters into JSON file")
+                    help="(O) Flag to save the parameters into `JSON` or `env` file.  Use `filename.extension` format")
 parser.add_argument('-q', '--quiet', required=False,
                     action='store_const', default=False, const=True, help="(O) Flag to don't create backups")
 parser.add_argument('-c', '--clear', required=False,
@@ -36,7 +36,9 @@ parser.add_argument('-c', '--clear', required=False,
 parser.add_argument('--id', required=False,
                     help="(O/BR2) Specify an account ID for assuming role")
 parser.add_argument('--role', required=False,
-                    help="(O/BR2) Specify a role name in children account")                    
+                    help="(O/BR2) Specify a role name in children account")
+parser.add_argument('--region', required=False,
+                    help="(O) Specify an AWS region")                         
 args = vars(parser.parse_args())
 
 # Base checks
@@ -44,6 +46,10 @@ if args['from'] and not args['to']:
     parser.error('Provide both --rename and --to arguments')
 elif not args['from'] and args['to']:
     parser.error('Provide both --rename and --to arguments')
+if args['id'] and not args['role']:
+    parser.error('Provide both --id and --to role')
+elif not args['id'] and args['role']:
+    parser.error('Provide both --id and --to role')
 
 
 def rename(data):
@@ -194,6 +200,10 @@ def main(ssm):
 if __name__ == '__main__':
     try:
         session = boto3.Session(profile_name=args['profile'])
+        if args['region']:
+            region = args['region']
+        else:
+            region = session.region_name
         if args['id'] and args['role']:
             sts = boto3.client('sts')
             assumed_role_object = sts.assume_role(
@@ -205,10 +215,11 @@ if __name__ == '__main__':
                 'ssm',
                 aws_access_key_id=credentials['AccessKeyId'],
                 aws_secret_access_key=credentials['SecretAccessKey'],
-                aws_session_token=credentials['SessionToken']
+                aws_session_token=credentials['SessionToken'],
+                region_name=region
             )
         else:
-            ssm = session.client('ssm')
+            ssm = session.client('ssm', region_name=region)
         main(ssm)
     except Exception as e:
         logging.error(e)
