@@ -30,7 +30,10 @@ To exit the venv just use `deactivate` command.
 | :---                |    :----    |
 | `-P`, `--profile`   | (R) Specify the AWS profile for script's session |
 | `-p`, `--path`      | (R) SSM parameters path ex: `/my/first/param/` |
+<<<<<<< HEAD
 | `-a`, `--add-path`  | (O) Add path to parameter |
+=======
+>>>>>>> 694845b62bb4b29ea92f9cc95ee6bbc15238e6bc
 | `-f`, `--from`      | (O/BR1) Specify a **part** of string to rename |
 | `-t`, `--to`        | (O/BR1) Specify a new **part** of string |
 | `-U`, `--upload`    | (O) Flag to upload new parameters |
