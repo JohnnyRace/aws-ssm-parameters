@@ -130,3 +130,6 @@ dmypy.json
 
 # JSON
 *.json
+probe*
+.terraform
+terraform
