@@ -38,7 +38,10 @@ To exit the venv just use `deactivate` command.
 * Script makes backups automaticaly when you delete or upload parameters
 
 ## Usage
-
+**Main usage case:**
+```bash
+python3 ssm.py -P profile -r .env -a /project/env/app/ --region us-west-1 --id 1111111111111 --role ProductionRoleForExample -U -q
+```
 Replace `dev` to `qa` in all parameter names from `/sokol/dev/` path in SSM and upload new names. It will help you if if you need to copy parameters for new environment:
 ``` bash
 python3 ssm.py --profile default --path /sokol/dev/ --from dev --to qa --upload
