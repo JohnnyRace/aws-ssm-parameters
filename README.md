@@ -25,17 +25,28 @@ pip3 install -r requirements.txt
 To exit the venv just use `deactivate` command.
 
 ## Super abilities
-* Easy to copy existing parameters for new environment
-* Get parameters by path
-* Script don't get parameters which are ManagedBy Terraform
-* Save to file in `json` or `.env` format
-* Read from `json` or `.env` file
-* Rename part of parameters names
-* Upload parameters from file or in action after renaming. Also you can overwrite existing parameters
-* Delete parameters by path
-* Assume role for session
-* Specify a region for Parameter Store
-* Script makes backups automaticaly when you delete or upload parameters
+* Easy to copy existing parameters for new environment  
+_Script get parameters by path, change names and can upload or save it local_
+* Get parameters by path  
+_Just read Parameter Store and get you parameters in JSON format to your terminal_
+* Script don't get parameters which are ManagedBy Terraform  
+_Because  this tag is excluded_
+* Save to file in `json` or `.env` format  
+_Don't use **env** use `.env`_
+* Read from `json` or `.env` file  
+_You can specify this formats. JSON file need to have "Name" and "Value" fields! "Type" is optional, the default value is "String"_
+* Rename part of parameters names  
+_Just change, for example /project/**dev**/app to /project/**qa**/app in parameters names_
+* Upload parameters from file or in action after renaming. Also you can overwrite existing parameters  
+_Just put all parameters to Parameter Store with specifyed credentials. Script use your default `.aws/credentials` file, which you can create by command `aws configure`. It's simple setup such for aws cli!_
+* Delete parameters by path  
+_Script creates backup of current parameters by specified path. It requires input confirmation of deleting. If you use script with `-q` argument, it will don't have any backups! Be careful!_
+* Assume role for session  
+_You can assume role in children account using specified account ID and role name for it. Read the documentation provided below!_
+* Specify a region for Parameter Store  
+_By default script uses region from `.aws/config` file _
+* Script makes backups automaticaly when you delete or upload parameters  
+_Just saves current parameters to `parameters_dump_<current-time>.json` file. You can restore it later!_
 
 ## Usage
 **Main usage case:**
@@ -50,7 +61,7 @@ Short version:
 ```bash
 python3 ssm.py -P default -p /sokol/dev/ -f dev -t qa -U
 ```
-Do it in specified region:
+Do it in region:
 ```bash
 python3 ssm.py -P default -p /sokol/dev/ -f dev -t qa -U --region us-west-2
 ```
