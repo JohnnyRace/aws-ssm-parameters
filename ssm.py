@@ -13,7 +13,7 @@ parser.add_argument('-P', '--profile', required=False, default='default',
                     help="(R) Specify the AWS profile for script's session")
 parser.add_argument('-p', '--path', required=False, default='/',
                     help="(R) SSM parameters path ex: `/my/first/param/`")
-parser.add_argument('-a', '--add-path', required=False, default='/add_by_python/',
+parser.add_argument('-a', '--add-path', required=False,
                     help="(R) add path to parameter")
 parser.add_argument('-f', '--from', required=False,
                     help="(O/BR1) Specify a **part** of string to rename ")
@@ -38,7 +38,7 @@ parser.add_argument('--id', required=False,
 parser.add_argument('--role', required=False,
                     help="(O/BR2) Specify a role name in children account")
 parser.add_argument('--region', required=False,
-                    help="(O) Specify an AWS region")                         
+                    help="(O) Specify an AWS region")
 args = vars(parser.parse_args())
 
 # Base checks
@@ -178,7 +178,10 @@ def main(ssm):
 
     if args['from'] and args['to']:
         new_data = rename(data)
-        upload(new_data)
+        if args['save']:
+            save(new_data)
+        elif args['upload']:
+            upload(ssm, new_data)
     elif args['save']:
         save(data)
     elif args['upload']:
