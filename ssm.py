@@ -76,9 +76,10 @@ def upload_parameter(ssm, parameter_name, parameter_value, parameter_type, overw
 
 def delete_parameters(ssm, data):
     try:
-        ssm.delete_parameters(
-            Names=[parameter['Name'] for parameter in data]
-        )
+        for parameter in data:
+            ssm.delete_parameter(
+                Name=parameter['Name']
+            )
     except ClientError as e:
         logging.error(e)
 
