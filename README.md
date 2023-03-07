@@ -1,3 +1,9 @@
+# Bash equivalent
+```bash
+eval $(aws ssm get-parameters-by-path --profile profile --path /project/dev/app/ --recursive --with-decryption --region us-west-2 | jq -r '.Parameters| .[] | "export " + .Name + "=\"" + .Value + "\""  ' | sed -e "s~/project/dev/app/~~")
+```
+
+
 # aws-ssm-parameters
 
 Simple python script for multiple parameter control in Amazon Parameter
