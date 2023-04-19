@@ -1,9 +1,3 @@
-# Bash equivalent
-```bash
-eval $(aws ssm get-parameters-by-path --profile profile --path /project/dev/app/ --recursive --with-decryption --region us-west-2 | jq -r '.Parameters| .[] | "export " + .Name + "=\"" + .Value + "\""  ' | sed -e "s~/project/dev/app/~~")
-```
-
-
 # aws-ssm-parameters
 
 Simple python script for multiple parameter control in Amazon Parameter
@@ -57,7 +51,11 @@ _Just saves current parameters to `parameters_dump_<current-time>.json` file. Yo
 ## Usage
 **Main usage case:**
 ```bash
-python3 ssm.py -P profile -r .env -a /project/env/app/ --region us-west-1 --id 1111111111111 --role ProductionRoleForExample -U -q
+python3 ssm.py --profile project --read .env -a /project/dev/app/ -U -o
+```
+**For secure parameters:**
+```bash
+python3 ssm_secure.py --profile project --read .env -a /project/dev/app/ -U -o
 ```
 Replace `dev` to `qa` in all parameter names from `/sokol/dev/` path in SSM and upload new names. It will help you if if you need to copy parameters for new environment:
 ``` bash

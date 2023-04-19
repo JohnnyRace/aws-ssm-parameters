@@ -135,3 +135,5 @@ probe*
 terraform
 *.markdown
 *.ztr-directory
+.DS_Store
+.gitignore
